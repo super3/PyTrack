@@ -20,7 +20,7 @@ PURPLE = (255,0,255)
 # FOLDER -- Folder that contains the images you want to process.
 # TOLERANCE -- The tolerance of the image comparisons while processing.
 # MOVEMENT -- Minimum amount of image change(%) that signifies movement.
-FOLDER = "SampleData"
+FOLDER = "ant_maze"
 TOLERANCE = 840000
 MAX_RECT = 20
 LAST_SEEN = (25,25)
