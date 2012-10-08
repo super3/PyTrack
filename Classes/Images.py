@@ -8,6 +8,7 @@
 # Imports
 import os
 import pygame
+import numpy
 
 class ImageFile:
 	"""

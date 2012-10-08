@@ -20,9 +20,9 @@ PURPLE = (255,0,255)
 # FOLDER -- Folder that contains the images you want to process.
 # TOLERANCE -- The tolerance of the image comparisons while processing.
 # MOVEMENT -- Minimum amount of image change(%) that signifies movement.
-FOLDER = "MosqTop"
-TOLERANCE = 640000
-MAX_RECT = 15
+FOLDER = "SampleData"
+TOLERANCE = 840000
+MAX_RECT = 20
 LAST_SEEN = (25,25)
 TRACK_COUNT = 0
 RESET = 0

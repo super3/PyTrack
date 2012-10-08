@@ -41,8 +41,8 @@ while True:
 			img2 = ImageFile(files[currentFile+1])
 
 			# Load ImageFile Objects into CompareImages Objects
-			#frameDiff = CompareImages(img1,img2)
-			backgroundSub = CompareImages(img1,background)
+			frameDiff = CompareImages(img1,img2)
+			#backgroundSub = CompareImages(img1,background)
 
 		except IOError as e:
 			# Display Screen Error if Images are Missing
@@ -55,7 +55,7 @@ while True:
 
 		else:
 			# Compare with Thresholds. Grab a Surface to Display.
-			backgroundSub.process(TOLERANCE)
+			tmpImage = frameDiff.process(TOLERANCE)
 			tmpImage = img1.imgFile
 
 			# Fit Window Size to Image
@@ -67,7 +67,7 @@ while True:
 			pygame.display.set_caption("PyTrack Viewer. Frame: " + str(currentFile) + "-" + str(currentFile+1))
 
 			# Draw Annotations
-			backgroundSub.drawBound(tmpImage)
+			frameDiff.drawBound(tmpImage)
 
 			# Change to Correct Frame
 			processedFile = currentFile

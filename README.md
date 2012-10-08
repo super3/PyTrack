@@ -1,8 +1,9 @@
 PyTrack
 ========
-Computer Vision Object/Motion Tracking, with Bounding Rectangles and Background Subtraction, using Python and PyGame. 
+Computer Vision Object/Motion Tracking, with Bounding Rectangles and Frame Subtraction, using Python and PyGame. 
 
-Developed during the summer at University of Washington in the Tom Daniel Lab, as part of the Center for Sensorimotor Neural Engineering(CSNE)'s Research Experiences for Undergraduates(REU) program. Special thanks to NSF.
+Developed during the summer of 2012 at University of Washington in the Tom Daniel Lab, as part of the Center for Sensorimotor
+Neural Engineering(CSNE)'s Research Experiences for Undergraduates(REU) program. Special thanks to the National Science Foundation(NSF).
 
 Info
 -------
@@ -14,8 +15,17 @@ Info
 Folders and Files
 -------
 * Classes - Contains all the classes for the project, as well as a helper module.
-* viewer.py - Used to display annotated results. Navigate with left and right arrow keys.
-* postprocess.py - Used to quicky process image data, and saving results to file.
+* viewer.py - Used to display annotated results. Navigate with the arrow keys.
+* postprocess.py - Used to quicky process image data, saving results to file.
+
+Pre-Setup
+-------
+**You must have [PyGame](http://pygame.org/) installed.** Developed in Python 3.2 (previous versions of Python may work if you're lucky).
+
+PyTrack accepts a folder of image frames from a video. I suggest you use [IrfanView](http://www.irfanview.com/) or another tool to extract your images. 
+These files can be in any sequential format, but must be the same pixel dimetions. PyTrack will accept any image formats accepted by PyGames's
+[image module](http://www.pygame.org/docs/ref/image.html) (these include: JPG, PNG, GIF (non animated), BMP, PCX, TGA (uncompressed), TIF, LBM, PBM, PBM, PGM, PPM, and XPM). 
+
 
 Setup
 -------
@@ -33,4 +43,5 @@ Viewer.py
 Warnings
 -------
 * Files must be in some sort of sequential format. Example: (image0001.jpg, image0002.jpg, etc.)
+* Files must be the same pixel dimentions. 
 * Will not track more than one object at a time.
