@@ -1,6 +1,8 @@
 PyTrack
 ========
-Computer Vision Object/Motion Tracking, with Bounding Rectangles and Background Subtraction, using Python and PyGame.
+Computer Vision Object/Motion Tracking, with Bounding Rectangles and Background Subtraction, using Python and PyGame. 
+
+Developed during the summer at University of Washington in the Tom Daniel Lab, as part of the Center for Sensorimotor Neural Engineering(CSNE)'s Research Experiences for Undergraduates(REU) program. Special thanks to NSF.
 
 Info
 -------
@@ -13,13 +15,13 @@ Folders and Files
 -------
 * Classes - Contains all the classes for the project, as well as a helper module.
 * viewer.py - Used to display annotated results. Navigate with left and right arrow keys.
-* postprocess.py - Used to process image data, and saving results rather than displaying them.
+* postprocess.py - Used to quicky process image data, and saving results to file.
 
 Setup
 -------
 1. Open `Classes/Config.py` in your text editor or IDE.
 2. Change the FOLDER variable to the path of the image folder.
-4. (Optional) Select the best TOLERANCE for the image. Default is 640000.
+4. (Optional) Select the best TOLERANCE for the data set. Default is 640000.
 7. Save your changes.
 8. Run `viewer.py` or `postprocess.py`.
 
@@ -30,5 +32,5 @@ Viewer.py
 
 Warnings
 -------
-* Files must be be in an sequential format. Example: (image0001.jpg, image0002.jpg, etc.)
+* Files must be in some sort of sequential format. Example: (image0001.jpg, image0002.jpg, etc.)
 * Will not track more than one object at a time.
