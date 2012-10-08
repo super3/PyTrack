@@ -73,19 +73,11 @@ class PostProcess:
 		self.bench.end()
 	def process(self):
 		"""Process frames in queue."""
-		stuff = []
 		self.bench.start("Processing", len(self.files))
 		for obj in self.queue:
 			obj.process( TOLERANCE )
-			stuff.append(LAST_SEEN)
 			self.queue.remove(obj)
 		self.bench.end()
-		self.toFile(stuff)
-	def toFile(self,stuff):
-		f = open('testdata.txt', 'w')
-		for i in stuff:
-			f.write(str(i) + "\n")
-		f.close()
 	def run(self):
 		"""Load and process selected frames."""
 		self.load()

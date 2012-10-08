@@ -3,7 +3,7 @@
 # Project Github: http://github.com/super3/PyTrack
 # Author: Shawn Wilkinson <me@super3.org>
 # Author Website: http://super3.org/
-# License: GPLv3 <http://gplv3.fsf.org/>rects
+# License: GPLv3 <http://gplv3.fsf.org/>
 
 # Imports
 import math
@@ -21,12 +21,25 @@ pygame.display.set_caption("PyTrack Viewer.")
 clock = pygame.time.Clock()
 
 # Load Background and Image Files
-background = ImageFile(FOLDER + "/" + "background.jpg")
+background = ImageFile("background.jpg")
 files = dirFiles(FOLDER)
 
 # File Incrementors 
 currentFile = 0
 processedFile = -1
+
+# Clickers
+clickers = []
+compute = []
+for i in range(len(files)-1):
+	clickers.append((0,0))
+	compute.append((0,0))
+
+def mean(numberList):
+	try:
+		return float(sum(numberList)) / len(numberList)
+	except ZeroDivisionError:
+		return 0
 
 # Main Game Loop
 while True:
@@ -41,7 +54,7 @@ while True:
 			img2 = ImageFile(files[currentFile+1])
 
 			# Load ImageFile Objects into CompareImages Objects
-			#frameDiff = CompareImages(img1,img2)
+			frameDiff = CompareImages(img1,img2)
 			backgroundSub = CompareImages(img1,background)
 
 		except IOError as e:
@@ -55,6 +68,7 @@ while True:
 
 		else:
 			# Compare with Thresholds. Grab a Surface to Display.
+			frameDiff.process(TOLERANCE)
 			backgroundSub.process(TOLERANCE)
 			tmpImage = img1.imgFile
 
@@ -66,8 +80,16 @@ while True:
 			# Display Title
 			pygame.display.set_caption("PyTrack Viewer. Frame: " + str(currentFile) + "-" + str(currentFile+1))
 
+			# Print Behavior
+			# print("[Bev/isMoving/] " + str(frameDiff.isMoving) + ":" + str(frameDiff.totalConflicts))
+			# print("[Bev/abLoc/] " + str(backgroundSub.abLoc))
+			# print("[Bev/legs/ " + str(backgroundSub.legs) + "\n")
+
 			# Draw Annotations
 			backgroundSub.drawBound(tmpImage)
+			backgroundSub.drawBoundCenter(tmpImage)
+			backgroundSub.drawLegTarget(tmpImage)
+			backgroundSub.drawAbTarget(tmpImage)
 
 			# Change to Correct Frame
 			processedFile = currentFile
@@ -79,6 +101,23 @@ while True:
 	for event in pygame.event.get():
 		if event.type == pygame.QUIT:
 			exit() # Goodbye!
+		elif event.type == pygame.MOUSEBUTTONUP:
+			if event.button == 1:
+				print("You clicked point " + str(event.pos))
+				clickers[currentFile] = event.pos
+				compute[currentFile] = backgroundSub.abLoc
+
+	point = clickers[currentFile]
+	pygame.draw.circle(tmpImage, RED, (point[0], point[1]), 5)
+
+	tmpList = []
+	for i in range(len(files)-1):
+		if clickers[i] != (0,0):
+			point1 = clickers[i]
+			point2 = compute[i]
+			dist = math.hypot(point2[0]-point1[0], point2[1]-point1[1])
+			tmpList.append(dist)
+	print(mean(tmpList))
 
 	# Get Keys
 	key = pygame.key.get_pressed()

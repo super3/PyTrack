@@ -8,6 +8,7 @@
 # Imports
 import os
 import pygame
+from PIL import Image as PILimage
 
 class ImageFile:
 	"""
@@ -37,3 +38,27 @@ class ImageFile:
 	def getSurfArray(self):
 		"""Returns a surfarray."""
 		return pygame.surfarray.array2d(self.imgFile)
+
+	# Info
+	def printInfo(self):
+		"""Prints basic information for the image."""
+		print("Image Width: " + str(self.width) + "px")
+		print("Image Height: " + str(self.height) + "px")
+		print("Image Area: " + str(self.getArea()) + "px")
+
+class ImageBuffer(ImageFile):
+	"""Same as ImageFile, just accepts file buffers."""
+	def __init__(self, string, size, format):
+		# Python PIL
+		im = PILimage.frombuffer('L', size, string)
+		im2 = im.convert(format).tostring()
+		# Load Image From Buffer
+		self.imgFile = pygame.image.fromstring(im2, size, format)
+		# Get Image Size
+		self.width = self.imgFile.get_width()
+		self.height = self.imgFile.get_height()
+	def getArea(self):
+		return ImageFile.getArea(self)
+	def getSurfArray(self):
+		"""Returns a surfarray."""
+		return ImageFile.getSurfArray(self)
