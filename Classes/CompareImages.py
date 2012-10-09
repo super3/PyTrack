@@ -15,15 +15,15 @@ class CompareImages:
 	def __init__(self, imgLeft, imgRight):
 		"""
 		Load in two images to compare. 
-		Assuming these images are loaded correctly, and are the same size.
+		Check if these images are loaded correctly, and are the same size.
+		Get global. These tell the last known location of the object, as well as how good
+		the track on the object is.
 
 		Data members:
 		imgLeft, imgRight -- The two images to be compared (ImageFile Class)
-		minX, maxX, minY, maxY -- Bounds for a bounding box. These are all initialized
-								  to unreasonable values that will be adjusted after
-								  the two images are compared
 		boundRect -- The pygame rect which contains the current look area. Start with full area.
-		trackCount -- Counts the number of times we found stuff.
+
+		Globals (Defined in Config.py).
 
 		"""
 
@@ -31,7 +31,7 @@ class CompareImages:
 		if imgLeft.width != imgRight.width or imgLeft.height != imgRight.height:
 			raise ValueError("Images are not the same dimensions.")
 		else:
-			self.imgLeft  = imgLeft
+			self.imgLeft = imgLeft
 			self.imgRight = imgRight
 
 		# Get Globals
@@ -39,21 +39,22 @@ class CompareImages:
 		global TRACK_COUNT
 
 		# Info
-		if TRACK_COUNT > 20:
-			#print(LAST_SEEN)
+		if TRACK_COUNT > 1:
 			self.boundRect = pygame.Rect((LAST_SEEN[0]-MAX_RECT,LAST_SEEN[1]-MAX_RECT), (MAX_RECT*2, MAX_RECT*2))
-
-			#self.boundRect = pygame.Rect((0,0), (imgLeft.width, imgLeft.height))
 		else:
 			self.boundRect = pygame.Rect((0,0), (imgLeft.width, imgLeft.height))
 
 	def comparray(self, tolerance):
 		"""Use NumPy to Compare Two SurfArray, and Return a Surface."""
+		# Turn the two PyGame surface objects into SurfArrays
 		left = self.imgLeft.getSurfArray()
 		right = self.imgRight.getSurfArray()
+		# This is NumPy magic...
 		diff = abs(left.__sub__(right))
 		diff = diff.__ge__(tolerance)*255
+		# Get back a usable PyGame surface
 		surface = pygame.surfarray.make_surface(diff)
+		# Get back transparency
 		surface.set_colorkey(BLACK)
 		return surface
 
@@ -66,6 +67,7 @@ class CompareImages:
 		try:
 			self.processBound(surfDiff)	
 		except ValueError:
+			# Couldn't find object. Reset.
 			print("Error Track.")
 			global LAST_SEEN
 			global TRACK_COUNT
@@ -107,9 +109,6 @@ class CompareImages:
 
 			if RESET >= 2:
 				TRACK_COUNT = 0
-
-
-		#print(TRACK_COUNT)
 
 	def drawBound(self, surface):
 		"""Draw the bounding box on a surface."""

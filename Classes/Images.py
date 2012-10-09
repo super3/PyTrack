@@ -8,14 +8,13 @@
 # Imports
 import os
 import pygame
-import numpy
 
 class ImageFile:
 	"""
 	An Image File Class.
 
 	Data members:
-	imgFile -- Surface containing the image
+	imgFile -- PyGame surface containing the image
 	width -- Width(px) of the image
 	height -- Height(px) of the image
 

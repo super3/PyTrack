@@ -28,8 +28,11 @@ files = dirFiles(FOLDER)
 currentFile = 0
 processedFile = -1
 
+# Game Loop Sentinel
+notDone = True
+
 # Main Game Loop
-while True:
+while notDone:
 	# Fill Display with Black
 	screen.fill(BLACK)
 
@@ -68,6 +71,7 @@ while True:
 
 			# Draw Annotations
 			frameDiff.drawBound(tmpImage)
+			frameDiff.drawBoundCenter(tmpImage)
 
 			# Change to Correct Frame
 			processedFile = currentFile
@@ -78,7 +82,7 @@ while True:
 	# Look For Exit
 	for event in pygame.event.get():
 		if event.type == pygame.QUIT:
-			exit() # Goodbye!
+			notDone = False # Goodbye!
 
 	# Get Keys
 	key = pygame.key.get_pressed()

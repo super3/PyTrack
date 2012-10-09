@@ -20,7 +20,7 @@ Folders and Files
 
 Pre-Setup
 -------
-**You must have [PyGame](http://pygame.org/) installed.** Developed in Python 3.2 (previous versions of Python may work if you're lucky).
+**You must have [PyGame](http://pygame.org/) and [NumPy](http://numpy.scipy.org/) installed.** Developed in Python 3.2 (previous versions of Python may work if you're lucky).
 
 PyTrack accepts a folder of image frames from a video. I suggest you use [IrfanView](http://www.irfanview.com/) or another tool to extract your images. 
 These files can be in any sequential format, but must be the same pixel dimetions. PyTrack will accept any image formats accepted by PyGames's

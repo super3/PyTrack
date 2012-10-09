@@ -8,7 +8,7 @@
 # Imports
 import os
 
-# Constant Colors
+# Colors Constants
 WHITE  = (255,255,255)
 BLACK  = (0,0,0)
 RED    = (255,0,0)
@@ -17,14 +17,11 @@ BLUE   = (0,0,255)
 PURPLE = (255,0,255)
 
 # Config Vars
-# FOLDER -- Folder that contains the images you want to process.
-# TOLERANCE -- The tolerance of the image comparisons while processing.
-# MOVEMENT -- Minimum amount of image change(%) that signifies movement.
-FOLDER = "ant_maze"
-TOLERANCE = 840000
-MAX_RECT = 20
-LAST_SEEN = (25,25)
-TRACK_COUNT = 0
+FOLDER = "ant_maze" # Folder that contains the images you want to process.
+TOLERANCE = 840000 # The tolerance of the image comparisons while processing.
+MAX_RECT = 20 # Pixel length of the search rectangle.
+LAST_SEEN = (0,0) # Last know coordinate of the object.
+TRACK_COUNT = 0  # Counts the number of times we consecutively found the object.
 RESET = 0
 
 # Helpful File Function

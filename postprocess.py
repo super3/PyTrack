@@ -33,10 +33,11 @@ class Benchmark:
 		"""Ends the timer. Returns seconds took."""
 		# Returns Datetime Timedelta
 		result =  datetime.datetime.now() - self.startTime
+		# Attempt to get a rate, fall back to miliseconds if seconds is less than zero
 		try:
 			rate = round(self.num / result.seconds, 3)
 		except ZeroDivisionError:
-			rate = "∞"
+			rate = round(self.num / result.microseconds*1000000, 3)
 		print("Done in " + str(result.seconds) + " seconds. (" + str(rate) + " objects/sec)")
 		self.reset()
 		return result.seconds
@@ -77,6 +78,7 @@ class PostProcess:
 		self.bench.start("Processing", len(self.files))
 		for obj in self.queue:
 			obj.process( TOLERANCE )
+			global LAST_SEEN
 			stuff.append(LAST_SEEN)
 			self.queue.remove(obj)
 		self.bench.end()
