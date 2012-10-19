@@ -26,21 +26,23 @@ PyTrack accepts a folder of image frames from a video. I suggest you use [IrfanV
 These files can be in any sequential format, but must be the same pixel dimetions. PyTrack will accept any image formats accepted by PyGames's
 [image module](http://www.pygame.org/docs/ref/image.html) (these include: JPG, PNG, GIF (non animated), BMP, PCX, TGA (uncompressed), TIF, LBM, PBM, PBM, PGM, PPM, and XPM). 
 
-If you want to get PyTrack up and running right away, [download this sample image set](https://github.com/downloads/super3/PyTrack/SampleAnt.zip). Extract `ant_maze` into root PyTrack directory. You should be
-able to run `viewer.py` or `postprocess.py` now. See setup below for more detailed instructions.
+If you want to get PyTrack up and running right away, [download this sample image set](https://github.com/downloads/super3/PyTrack/SampleAnt.zip). Extract `ant_maze` into root PyTrack directory. You should be able to run `viewer.py` or `postprocess.py` now. See setup below for more detailed instructions.
 
 Setup
 -------
 1. Open `Classes/Config.py` in your text editor or IDE.
 2. Change the FOLDER variable to the path of the image folder.
-4. (Optional) Select the best TOLERANCE for the data set. Default is 840000.
+4. Select the best TOLERANCE for the data set. Default is 840000.
 7. Save your changes.
 8. Run `viewer.py` or `postprocess.py`.
 
 Viewer.py
 -------
-* Use the forward and back arrows to move forward or back 1 frame.
-* Use the up and down arrows to move forward of back 10 frames.
+* `Forward` and `Back` arrows to move forward or back 1 frame.
+* `Up` and `Down` arrows to move forward or back 10 frames.
+* `S` key to toggle between source images and PyTrack's pixel differencing.
+* `1` key to toggle bounding box around object.
+* `2` key to toggle bounding box center.
 
 Warnings
 -------

@@ -16,53 +16,46 @@ class Benchmark:
 	"""Allows for timing of load and process events."""
 	def __init__(self):
 		"""
-		Initializes a Benchmark Object.
-		Note: It will break if it grabs a time less than a second. 
-
 		Data members:
-		startTime -- Datetime object at start of benchmark.
-		num -- Stores amount of objects loaded/processed so we can get a rate 
+		startTime -- Datetime object at start of benchmark
+		numObjs -- Stores amount of objects loaded/processed, so we can get a rate 
 		"""
 		self.reset()
-	def start(self, prefix, num):
+	def start(self, prefix, numObjs):
 		"""Starts the timer."""
 		self.startTime = datetime.datetime.now()
-		self.num = num
-		print(prefix + " " + str(num) + " Images...")
+		self.numObjs = numObjs
+		print(prefix + " " + str(numObjs) + " Images...")
 	def end(self):
 		"""Ends the timer. Returns seconds took."""
 		# Returns Datetime Timedelta
 		result =  datetime.datetime.now() - self.startTime
 		# Attempt to get a rate, fall back to miliseconds if seconds is less than zero
 		try:
-			rate = round(self.num / result.seconds, 3)
+			rate = round(self.numObjs / result.seconds, 3)
 		except ZeroDivisionError:
-			rate = round(self.num / result.microseconds*1000000, 3)
+			rate = round(self.numObjs / result.microseconds*1000000, 3) # Is Correct?
 		print("Done in " + str(result.seconds) + " seconds. (" + str(rate) + " objects/sec)")
 		self.reset()
-		return result.seconds
 	def reset(self):
 		"""Resets the timer."""
 		self.startTime = None
-		self.num = 0
+		self.numObjs = 0
 
 # PostProcess Class
 # This would work really nice with threading.
 class PostProcess:
-	"""Used to process a batch of images."""
+	"""Used to post process a batch of images."""
 	def __init__(self, files):
 		"""
-		Initializes a PostProcess Object.
-
 		Data members:
 		files -- A list of the image paths
 		queue -- A list of CompareFiles objects to process
-		bench -- Benchmark object for getting processing and load times
+		bench -- Benchmark object, so we can see how long it took to load and process
 		"""
-		# Queue Var
+		# Vars
 		self.files = files
 		self.queue = []
-		# Benchmark Object
 		self.bench = Benchmark()
 	def load(self):
 		"""Load frames from disk to memory, and add them to queue."""
@@ -73,23 +66,23 @@ class PostProcess:
 			self.queue.append( CompareImages(img1,img2) )
 		self.bench.end()
 	def process(self):
-		"""Process frames in queue."""
-		stuff = []
+		"""Process frames in queue/memory."""
+		data = []
 		self.bench.start("Processing", len(self.files))
 		for obj in self.queue:
 			obj.process( TOLERANCE )
 			global LAST_SEEN
-			stuff.append(LAST_SEEN)
+			data.append(LAST_SEEN)
 			self.queue.remove(obj)
 		self.bench.end()
-		self.toFile(stuff)
-	def toFile(self,stuff):
-		f = open('testdata.txt', 'w')
-		for i in stuff:
+		self.toFile(data)
+	def toFile(self,data):
+		f = open('data.txt', 'w')
+		for i in data:
 			f.write(str(i) + "\n")
 		f.close()
 	def run(self):
-		"""Load and process selected frames."""
+		"""Load and process given files."""
 		self.load()
 		self.process()
 

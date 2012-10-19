@@ -14,14 +14,13 @@ class CompareImages:
 	"""For Comparing Two ImageFiles."""
 	def __init__(self, imgLeft, imgRight):
 		"""
-		Load in two images to compare. 
-		Check if these images are loaded correctly, and are the same size.
+		Check if these images are the same size.
 		Get global. These tell the last known location of the object, as well as how good
 		the track on the object is.
 
 		Data members:
 		imgLeft, imgRight -- The two images to be compared (ImageFile Class)
-		boundRect -- The pygame rect which contains the current look area. Start with full area.
+		boundRect -- The pygame rect which contains the current look area. Start with full area
 
 		Globals (Defined in Config.py).
 
@@ -115,5 +114,5 @@ class CompareImages:
 		pygame.draw.rect(surface, BLUE, self.boundRect, 3)
 
 	def drawBoundCenter(self, surface):
-		"""Draw the bound center on a surface."""
+		"""Draw the bounding box center on a surface."""
 		pygame.draw.circle(surface, GREEN, (self.boundRect.centerx, self.boundRect.centery), 5)

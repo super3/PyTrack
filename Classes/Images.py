@@ -11,7 +11,7 @@ import pygame
 
 class ImageFile:
 	"""
-	An Image File Class.
+	Stores an image file in a PyGame surface.
 
 	Data members:
 	imgFile -- PyGame surface containing the image
@@ -35,5 +35,5 @@ class ImageFile:
 		"""Returns the pixel area of the image."""
 		return self.width * self.height
 	def getSurfArray(self):
-		"""Returns a surfarray."""
+		"""Returns a PyGame surfarray."""
 		return pygame.surfarray.array2d(self.imgFile)
