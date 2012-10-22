@@ -26,12 +26,16 @@ class CompareImages:
 
 		"""
 
-		# Check ImageFile Dimensions then Load into CompareImages Object
+		# Check ImageFile Dimensions First
 		if imgLeft.width != imgRight.width or imgLeft.height != imgRight.height:
 			raise ValueError("Images are not the same dimensions.")
 		else:
+			# Images to Vars
 			self.imgLeft = imgLeft
 			self.imgRight = imgRight
+			# Blank Surface for Diffed Result
+			self.surfDiff = None
+
 
 		# Get Globals
 		global LAST_SEEN

@@ -73,9 +73,10 @@ while notDone:
 			tmpImage = font.render("Images are not the same dimensions.", 1, RED)
 
 		else:
-			# Compare with Threshold. Grab a Surface to Display.
+			# If showSource is enabled then process the frames, and get the diffed result for display
 			if showSource:
 				tmpImage = compare.process(TOLERANCE)
+			# Else then process the frames, but get the first frame for display
 			else:
 				compare.process(TOLERANCE)
 				tmpImage = img1.imgFile
@@ -88,7 +89,7 @@ while notDone:
 			# Display Title
 			pygame.display.set_caption("PyTrack Viewer. Frame: " + str(currentFile) + "-" + str(currentFile+1))
 
-			# Draw Annotations
+			# Draw Annotations in Enabled
 			if showBound:
 				compare.drawBound(tmpImage)
 			if showBoundCenter:
@@ -109,7 +110,7 @@ while notDone:
 			refresh = True
 			# Check for display hotkeys
 			if event.key == pygame.K_s:
-				# Switch the bool that controls which surface to display
+				# Controls which surface to display
 				showSource = not showSource
 			elif event.key == pygame.K_1:
 				# Toggle Bounding Box
@@ -117,7 +118,7 @@ while notDone:
 			elif event.key == pygame.K_2:
 				# Toggle Bounding Box Center
 				showBoundCenter = not showBoundCenter
-			# No hotkets selected, so don't refresh
+			# No hotkeys selected, so don't refresh
 			else:
 				refresh = False
 
