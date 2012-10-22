@@ -39,7 +39,3 @@ FOLDER = "ant_maze" # Folder that contains the images you want to process.
 TOLERANCE = 840000 # The tolerance of the image comparisons while processing.
 MAX_RECT = 20 # Pixel length of the search rectangle.
 METHOD = algorithm.FRAME_DIFFERENCING
-
-LAST_SEEN = (0,0) # Last know coordinate of the object.
-TRACK_COUNT = 0  # Counts the number of times we consecutively found the object.
-RESET = 0

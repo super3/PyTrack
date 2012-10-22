@@ -38,6 +38,14 @@ showBoundCenter = True
 notDone = True
 refresh = False
 
+# Image and Compare Objects
+if METHOD == algorithm.BACKGROUND_SUBTRACTION:
+	# Load Current Frame and Background
+	compare = CompareImages( ImageFile(files[currentFile]), background )
+elif METHOD == algorithm.FRAME_DIFFERENCING:
+	# Load Current Frame and Next Frame
+	compare = CompareImages( ImageFile(files[currentFile]), ImageFile(files[currentFile+1]) )
+
 # Main Game Loop
 while notDone:
 	# Fill Display with Black
@@ -51,17 +59,12 @@ while notDone:
 		# Get the Images Needed Based on the Algorithm
 		try:
 			if METHOD == algorithm.BACKGROUND_SUBTRACTION:
-				# Load File to ImageFile Object
-				img1 = ImageFile(files[currentFile])
-				# Load ImageFile Objects into CompareImages Object
-				compare = CompareImages(img1,background)
+				# Load Current Frame
+				compare.setLeft( ImageFile(files[currentFile]) )
 
 			elif METHOD == algorithm.FRAME_DIFFERENCING:
-				# Load Files to ImageFile Objects
-				img1 = ImageFile(files[currentFile])
-				img2 = ImageFile(files[currentFile+1])
-				# Load ImageFile Objects into CompareImages Object
-				compare = CompareImages(img1,img2)
+				# Load Next Frame
+				compare.setRight( ImageFile(files[currentFile+1]) )
 
 		except IOError as e:
 			# Display Screen Error if Images are Missing
@@ -79,7 +82,7 @@ while notDone:
 			# Else then process the frames, but get the first frame for display
 			else:
 				compare.process(TOLERANCE)
-				tmpImage = img1.imgFile
+				tmpImage = ImageFile(files[currentFile]).imgFile
 
 			# Fit Window Size to Image
 			x, y = screen.get_size()

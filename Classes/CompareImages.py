@@ -26,27 +26,38 @@ class CompareImages:
 
 		"""
 
-		# Check ImageFile Dimensions First
-		if imgLeft.width != imgRight.width or imgLeft.height != imgRight.height:
-			raise ValueError("Images are not the same dimensions.")
+		# Images to Vars
+		self.imgLeft = imgLeft
+		self.imgRight = imgRight
+		# Blank Surface for Diffed Result
+		self.surfDiff = pygame.Surface((0, 0))
+		
+		# Tracking Vars
+		self.last_seen = (0,0)
+		self.track_count = 0
+
+		# Set Full Screen Bounding Rect
+		self.setBoundRect()
+
+	# Image Change Methods
+	def setLeft(self, pySurface):
+		"""Set the left image."""
+		self.imgLeft = pySurface
+	def setRight(self, pySurface):
+		"""Swap and set the right image."""
+		self.imgLeft = self.imgRight
+		self.imgRight = pySurface
+	def compareDimen(self):
+		"""Make sure the compared images are the same size."""
+		return (self.imgLeft.width != self.imgRight.width) or (self.imgLeft.height != self.imgRight.height)
+	def setBoundRect(self):
+		if self.track_count > 1:
+			self.boundRect = pygame.Rect((self.last_seen[0]-MAX_RECT,self.last_seen[1]-MAX_RECT), (MAX_RECT*2, MAX_RECT*2))
 		else:
-			# Images to Vars
-			self.imgLeft = imgLeft
-			self.imgRight = imgRight
-			# Blank Surface for Diffed Result
-			self.surfDiff = None
+			self.boundRect = pygame.Rect((0,0), (self.imgLeft.width, self.imgLeft.height))
+			
 
-
-		# Get Globals
-		global LAST_SEEN
-		global TRACK_COUNT
-
-		# Info
-		if TRACK_COUNT > 1:
-			self.boundRect = pygame.Rect((LAST_SEEN[0]-MAX_RECT,LAST_SEEN[1]-MAX_RECT), (MAX_RECT*2, MAX_RECT*2))
-		else:
-			self.boundRect = pygame.Rect((0,0), (imgLeft.width, imgLeft.height))
-
+	# Process Methods
 	def comparray(self, tolerance):
 		"""Use NumPy to Compare Two SurfArray, and Return a Surface."""
 		# Turn the two PyGame surface objects into SurfArrays
@@ -63,6 +74,8 @@ class CompareImages:
 
 	def process(self, tolerance):
 		"""Compare the two images, and Return diffed Surface."""
+		self.setBoundRect()
+
 		# Compare Pixel Surfs (with params) and Get Surface
 		surfDiff = self.comparray(tolerance)
 
@@ -72,21 +85,14 @@ class CompareImages:
 		except ValueError:
 			# Couldn't find object. Reset.
 			print("Error Track.")
-			global LAST_SEEN
-			global TRACK_COUNT
-			LAST_SEEN = (0,0)
-			TRACK_COUNT = 0
+			self.last_seen = (0,0)
+			self.track_count = 0
 
 		# Return Diffed Surface
 		return surfDiff
 
 	def processBound(self, surfDiff):
 		"""Find the Bounding Box."""
-		# Get Globals
-		global LAST_SEEN
-		global TRACK_COUNT
-		global RESET
-
 		# Check Current Area for Movement and Generate Surface+Mask
 		targetSurf = surfDiff.subsurface(self.boundRect)
 		mask = pygame.mask.from_surface(targetSurf)
@@ -100,19 +106,15 @@ class CompareImages:
 				if aRect.width*aRect.height >= maxNum:
 					maxRect = aRect
 					maxNum = aRect.width*aRect.height
-			# Set LAST_SEEN to that Largest Component's Center
-			LAST_SEEN = (maxRect.centerx + self.boundRect.left, maxRect.centery + self.boundRect.top)
-			TRACK_COUNT += 1
-			RESET = 0
+			# Set self.last_seen to that Largest Component's Center
+			self.last_seen = (maxRect.centerx + self.boundRect.left, maxRect.centery + self.boundRect.top)
+			self.track_count += 1
 		else:
 			# Set Track as Bad
-			print("No Track (" + str(mask.count()) + ")")
-			if TRACK_COUNT >= 21:
-				RESET += 1
+			print("No Track ( Pixels " + str(mask.count()) + " )")
+			self.track_count = 0
 
-			if RESET >= 2:
-				TRACK_COUNT = 0
-
+	# Annotations 
 	def drawBound(self, surface):
 		"""Draw the bounding box on a surface."""
 		pygame.draw.rect(surface, BLUE, self.boundRect, 3)
