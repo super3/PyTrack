@@ -38,7 +38,7 @@ showBoundCenter = True
 notDone = True
 refresh = False
 
-# Image and Compare Objects
+# Initialize Compare Object
 if METHOD == algorithm.BACKGROUND_SUBTRACTION:
 	# Load Current Frame and Background
 	compare = CompareImages( ImageFile(files[currentFile]), background )
@@ -51,10 +51,21 @@ while notDone:
 	# Fill Display with Black
 	screen.fill(BLACK)
 
-	# If Current File is not the Processed File or a Refresh is Needed Then Update
-	if currentFile != processedFile or refresh:
+	# Redraw. Switch Between Source Image Surface, and Diffed Image.
+	if refresh:
 		# Reset Refresh
 		refresh = False
+
+		# If showSource is enabled then process the frames, and get the diffed result for display
+		if showSource:
+			tmpImage = diffedImage
+		# Else then process the frames, but get the first frame for display
+		else:
+			tmpImage = ImageFile(files[currentFile]).imgFile
+
+	# If Current File is not the Processed File or a 
+	if currentFile != processedFile:
+		
 
 		# Get the Images Needed Based on the Algorithm
 		try:
@@ -76,12 +87,14 @@ while notDone:
 			tmpImage = font.render("Images are not the same dimensions.", 1, RED)
 
 		else:
+			# Do Compare Operation
+			diffedImage = compare.process(TOLERANCE)
+
 			# If showSource is enabled then process the frames, and get the diffed result for display
 			if showSource:
-				tmpImage = compare.process(TOLERANCE)
+				tmpImage = diffedImage
 			# Else then process the frames, but get the first frame for display
 			else:
-				compare.process(TOLERANCE)
 				tmpImage = ImageFile(files[currentFile]).imgFile
 
 			# Fit Window Size to Image
@@ -92,14 +105,14 @@ while notDone:
 			# Display Title
 			pygame.display.set_caption("PyTrack Viewer. Frame: " + str(currentFile) + "-" + str(currentFile+1))
 
-			# Draw Annotations in Enabled
-			if showBound:
-				compare.drawBound(tmpImage)
-			if showBoundCenter:
-				compare.drawBoundCenter(tmpImage)
-
 			# Change to Correct Frame
 			processedFile = currentFile
+
+	# Draw Annotations in Enabled
+	if showBound:
+		compare.drawBound(tmpImage)
+	if showBoundCenter:
+		compare.drawBoundCenter(tmpImage)
 
 	# Draw Image
 	screen.blit(tmpImage, dest=(0,0))
