@@ -3,7 +3,7 @@
 # Project Github: http://github.com/super3/PyTrack
 # Author: Shawn Wilkinson <me@super3.org>
 # Author Website: http://super3.org/
-# License: GPLv3 <http://gplv3.fsf.org/>rects
+# License: GPLv3 <http://gplv3.fsf.org/>
 
 # Imports
 import pygame
@@ -41,10 +41,10 @@ refresh = False
 # Initialize Compare Object
 if METHOD == algorithm.BACKGROUND_SUBTRACTION:
 	# Load Current Frame and Background
-	compare = CompareImages( ImageFile(files[currentFile]), background )
+	compare = CompareImages( ImageFile(files[0], 0), background )
 elif METHOD == algorithm.FRAME_DIFFERENCING:
-	# Load Current Frame and Next Frame
-	compare = CompareImages( ImageFile(files[currentFile]), ImageFile(files[currentFile+1]) )
+	# Load Current Frame and Next Frame, currentFile
+	compare = CompareImages( ImageFile(files[0], 0), ImageFile(files[1], 1) )
 
 # Main Game Loop
 while notDone:
@@ -58,7 +58,7 @@ while notDone:
 
 		# If showSource is enabled then process the frames, and get the diffed result for display
 		if showSource:
-			tmpImage = diffedImage
+			tmpImage = compare.surfDiff
 		# Else then process the frames, but get the first frame for display
 		else:
 			tmpImage = ImageFile(files[currentFile]).imgFile
@@ -71,11 +71,11 @@ while notDone:
 		try:
 			if METHOD == algorithm.BACKGROUND_SUBTRACTION:
 				# Load Current Frame
-				compare.setLeft( ImageFile(files[currentFile]) )
+				compare.setLeft( ImageFile(files[currentFile], currentFile) )
 
 			elif METHOD == algorithm.FRAME_DIFFERENCING:
 				# Load Next Frame
-				compare.setRight( ImageFile(files[currentFile+1]) )
+				compare.setRight( ImageFile(files[currentFile+1], currentFile+1) )
 
 		except IOError as e:
 			# Display Screen Error if Images are Missing
@@ -88,11 +88,11 @@ while notDone:
 
 		else:
 			# Do Compare Operation
-			diffedImage = compare.process(TOLERANCE)
+			compare.process(TOLERANCE)
 
 			# If showSource is enabled then process the frames, and get the diffed result for display
 			if showSource:
-				tmpImage = diffedImage
+				tmpImage = compare.surfDiff
 			# Else then process the frames, but get the first frame for display
 			else:
 				tmpImage = ImageFile(files[currentFile]).imgFile

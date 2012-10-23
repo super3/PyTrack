@@ -14,14 +14,17 @@ class ImageFile:
 	Stores an image file in a PyGame surface.
 
 	Data members:
+	frame -- Frame number of the image
 	imgFile -- PyGame surface containing the image
 	width -- Width(px) of the image
 	height -- Height(px) of the image
 
 	"""
-	def __init__(self, filePath):
+	def __init__(self, filePath, frame = 0):
 		# Load File to PyGame Surface and Get Size Info
 		if os.path.exists(filePath):
+			# Frame (Optional)
+			self.frame = frame
 			# Load Image From File
 			self.imgFile = pygame.image.load(filePath)
 			# Get Image Size

@@ -56,31 +56,48 @@ class PostProcess:
 		# Vars
 		self.files = files
 		self.queue = []
+		self.data = []
 		self.bench = Benchmark()
 	def load(self):
 		"""Load frames from disk to memory, and add them to queue."""
 		self.bench.start("Loading", len(self.files))
-		for i in range(len(self.files)-1):
-			img1 = ImageFile(self.files[i])
-			img2 = ImageFile(self.files[i+1])
-			self.queue.append( CompareImages(img1,img2) )
+		for frame in range(len(self.files)):
+			self.queue.append( ImageFile(self.files[frame], frame) )
 		self.bench.end()
 	def process(self):
 		"""Process frames in queue/memory."""
-		data = []
+		# Start benchmark
 		self.bench.start("Processing", len(self.files))
-		for obj in self.queue:
-			obj.process( TOLERANCE )
-			global LAST_SEEN
-			data.append(LAST_SEEN)
-			self.queue.remove(obj)
+		# Temporary Data Var
+		data = []
+
+		# Initialize Compare Object
+		if METHOD == algorithm.BACKGROUND_SUBTRACTION:
+			# Load Current Frame and Background
+			compare = CompareImages( self.queue[0], background )
+		elif METHOD == algorithm.FRAME_DIFFERENCING:
+			# Load Current Frame and Next Frame
+			compare = CompareImages( self.queue[0], self.queue[1] )
+
+		# Process Image Queue
+		for frame in self.queue:
+			if METHOD == algorithm.BACKGROUND_SUBTRACTION:
+				# Load Current Frame
+				compare.setLeft( frame )
+			elif METHOD == algorithm.FRAME_DIFFERENCING:
+				# Load Next Frame
+				compare.setRight( frame )
+			data.append( compare.process( TOLERANCE ) )
+
+		# End benchmark
 		self.bench.end()
+		# Write data to file
 		self.toFile(data)
-	def toFile(self,data):
-		f = open('data.txt', 'w')
-		for i in data:
-			f.write(str(i) + "\n")
-		f.close()
+		print(data)
+	def toFile(self, data):
+		with open('data.txt', 'w') as file:
+			for item in data:
+				file.write("{}\n".format(item))
 	def run(self):
 		"""Load and process given files."""
 		self.load()
