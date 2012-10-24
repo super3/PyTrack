@@ -92,12 +92,7 @@ class PostProcess:
 		# End benchmark
 		self.bench.end()
 		# Write data to file
-		self.toFile(data)
-		print(data)
-	def toFile(self, data):
-		with open('data.txt', 'w') as file:
-			for item in data:
-				file.write("{}\n".format(item))
+		listToFile(data, 'data.txt')
 	def run(self):
 		"""Load and process given files."""
 		self.load()

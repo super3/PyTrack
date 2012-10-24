@@ -14,9 +14,9 @@ Info
 
 Folders and Files
 -------
-* Classes - Contains all the classes for the project, as well as a helper module.
+* Classes - Contains all the classes for the project, as well as a config module.
 * viewer.py - Used to display annotated results. Navigate with the arrow keys.
-* postprocess.py - Used to quicky process image data, saving results to file.
+* process.py - Used to quicky process image data, saving results to file.
 
 Pre-Setup
 -------
@@ -26,7 +26,7 @@ PyTrack accepts a folder of image frames from a video. I suggest you use [IrfanV
 These files can be in any sequential format, but must be the same pixel dimetions. PyTrack will accept any image formats accepted by PyGames's
 [image module](http://www.pygame.org/docs/ref/image.html) (these include: JPG, PNG, GIF (non animated), BMP, PCX, TGA (uncompressed), TIF, LBM, PBM, PBM, PGM, PPM, and XPM). 
 
-If you want to get PyTrack up and running right away, [download this sample image set](https://github.com/downloads/super3/PyTrack/SampleAnt.zip). Extract `ant_maze` into root PyTrack directory. You should be able to run `viewer.py` or `postprocess.py` now. See setup below for more detailed instructions.
+If you want to get PyTrack up and running right away, [download this sample image set](https://github.com/downloads/super3/PyTrack/SampleAnt.zip). Extract `ant_maze` into root PyTrack directory. You should be able to run `viewer.py` or `process.py` now. See setup below for more detailed instructions.
 
 Setup
 -------
@@ -34,15 +34,20 @@ Setup
 2. Change the FOLDER variable to the path of the image folder.
 4. Select the best TOLERANCE for the data set. Default is 840000.
 7. Save your changes.
-8. Run `viewer.py` or `postprocess.py`.
+8. Run `viewer.py` or `process.py`.
 
 Viewer.py
 -------
 * `Forward` and `Back` arrows to move forward or back 1 frame.
 * `Up` and `Down` arrows to move forward or back 10 frames.
 * `S` key to toggle between source images and PyTrack's pixel differencing.
-* `1` key to toggle bounding box around object.
-* `2` key to toggle bounding box center.
+* `1` key to toggle search area box around object.
+* `2` key to toggle search area box center.
+
+Process.py
+-------
+* Will load and process images without any input from the user.
+* Outputs the coordinates of the dataset to `data.txt`.
 
 Warnings
 -------

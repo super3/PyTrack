@@ -117,7 +117,7 @@ while notDone:
 	# Draw Image
 	screen.blit(tmpImage, dest=(0,0))
 
-	# Look For Exit
+	# Check Events
 	for event in pygame.event.get():
 		if event.type == pygame.QUIT:
 			notDone = False # Goodbye!
@@ -143,9 +143,9 @@ while notDone:
 
 	# Change current frame based on the arrow keys, and check 
 	# to make sure the next frame is within the frame limits
-	if key[pygame.K_RIGHT] and currentFile+1 < len(files)-1:
+	if key[pygame.K_RIGHT] and currentFile+10 < len(files)-1:
 		currentFile += 1
-	elif key[pygame.K_LEFT] and currentFile-1 > 0:
+	elif key[pygame.K_LEFT] and currentFile > 0:
 		currentFile -= 1
 	elif key[pygame.K_UP] and currentFile+10 < len(files)-1:
 		currentFile += 10

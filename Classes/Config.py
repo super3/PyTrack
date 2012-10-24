@@ -24,7 +24,7 @@ class Enum(set):
         raise AttributeError
 algorithm = Enum(["BACKGROUND_SUBTRACTION", "FRAME_DIFFERENCING"])
 
-# Helpful File Function
+# Helpful File Functions
 def dirFiles(path):
 	"""Return a list of files in a directory."""
 	fileList = []
@@ -33,6 +33,14 @@ def dirFiles(path):
 			afile = str(os.path.join(r,afile)).replace("\\", "/")
 			fileList.append(afile)
 	return fileList
+def listToFile(data, filename):
+		"""List to text file."""
+		with open(filename, 'w') as file:
+			for item in data:
+				file.write("{}\n".format(item))
+def fileExists(path):
+	"""Simply checks if a file exists. Prints an error if not."""
+	return os.path.exists( path )
 
 # Config Vars
 FOLDER = "ant_maze" # Folder that contains the images you want to process.

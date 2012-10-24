@@ -7,5 +7,4 @@ Output/
 *.txt
 
 # Sample Data
-Sample*/
-ant_maze/
+*.jpg
