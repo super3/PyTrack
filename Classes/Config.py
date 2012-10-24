@@ -43,7 +43,7 @@ def fileExists(path):
 	return os.path.exists( path )
 
 # Config Vars
-FOLDER = "ant_maze" # Folder that contains the images you want to process.
+FOLDER = "SampleMosq" # Folder that contains the images you want to process.
 TOLERANCE = 840000 # The tolerance of the image comparisons while processing.
 MAX_RECT = 20 # Pixel length of the search rectangle.
 METHOD = algorithm.FRAME_DIFFERENCING
