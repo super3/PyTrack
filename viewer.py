@@ -22,8 +22,14 @@ clock = pygame.time.Clock()
 # Load Background
 if METHOD == algorithm.BACKGROUND_SUBTRACTION:
 	background = ImageFile(FOLDER + "/background.jpg")
-# Get List of Image Files
-files = dirFiles(FOLDER)
+
+# Check to make sure the directory exists
+if fileExists(FOLDER):
+	# Get List of Image Files
+	files = dirFiles(FOLDER)
+else:
+	print("Directory does not exist.")
+	exit()
 
 # File Incrementors 
 currentFile = 0
