@@ -2,28 +2,6 @@ PyTrack
 ========
 A simplified computer vision framework for object and motion tracking, using Python and Pygame. 
 
-
-Special Thanks
--------
-This project was created during the summer of 2012 at [University of Washington](https://www.washington.edu/) in the [Tom Daniel Lab](http://faculty.washington.edu/danielt/), 
-as part of the [Center for Sensorimotor Neural Engineering](http://www.csne-erc.org/) Research Experiences for Undergraduates(REU) program. 
-Special thanks to the National Science Foundation(NSF).
-
-Currently this project is part of ongoing computer vision research at [Morehouse College](https://morehouse.edu/)'s computer science department under Dr. Amos Johnson.
-
-Info
--------
-* Author: Shawn Wilkinson <me@super3.org>
-* Author Website: http://super3.org/
-* Project Github: https://github.com/super3/PyTrack
-* License: GPLv3 <http://gplv3.fsf.org/>
-
-Folders and Files
--------
-* Classes - Contains all the classes for the project, as well as a config module.
-* viewer.py - Used to display annotated results. Navigate with the arrow keys.
-* process.py - Used to quickly process image data, saving results to file.
-
 Dependencies and Pre-Setup
 -------
 **You must have [PyGame](http://pygame.org/) and [NumPy](http://numpy.scipy.org/) installed.** Developed in Python 3.2 (previous versions of Python may work if you're lucky).
@@ -43,21 +21,35 @@ Setup
 7. Save your changes.
 8. Run `viewer.py` or `process.py`.
 
-Viewer.py
+####Notes:
+* Files must be in some sort of sequential format. Example: (image0001.jpg, image0002.jpg, etc.)
+* Files must be the same pixel dimensions. 
+* Will not track more than one object at a time.
+
+Modules
 -------
+
+####Viewer.py
+This module will display annotated results. 
 * `Forward` and `Back` arrows to move forward or back 1 frame.
 * `Up` and `Down` arrows to move forward or back 10 frames.
 * `S` key to toggle between source images and PyTrack's pixel differencing.
 * `1` key to toggle search area box around object.
 * `2` key to toggle search area box center.
 
-Process.py
--------
+####Process.py
+This module will quickly process image data. 
 * Will load and process images without any input from the user.
 * Outputs the coordinates of the dataset to `data.txt`.
 
-Warnings
+Info and Thanks
 -------
-* Files must be in some sort of sequential format. Example: (image0001.jpg, image0002.jpg, etc.)
-* Files must be the same pixel dimensions. 
-* Will not track more than one object at a time.
+* Author: Shawn Wilkinson <me@super3.org>
+* Author Website: http://super3.org/
+* Project Github: https://github.com/super3/PyTrack
+* License: GPLv3 <http://gplv3.fsf.org/>
+
+This project was created during the summer of 2012 at [University of Washington](https://www.washington.edu/) in the [Tom Daniel Lab](http://faculty.washington.edu/danielt/), 
+as part of the [Center for Sensorimotor Neural Engineering](http://www.csne-erc.org/) Research Experiences for Undergraduates(REU) program. 
+Special thanks to the National Science Foundation(NSF). Currently this project is part of ongoing computer vision research at
+[Morehouse College](https://morehouse.edu/)'s computer science department under Dr. Amos Johnson.
